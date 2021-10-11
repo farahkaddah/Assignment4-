@@ -21,3 +21,46 @@ library(httr)
 library(viridis)
 library(hrbrthemes)
 ```
+
+## Mapping Conflict in Syria by event type
+
+```{r Loading, echo=TRUE}
+
+conflicts <- read.csv("Data/ACLED_2018-09-10-2021-09-17-Eastern_Africa-Middle_Africa-Middle_East-Southern_Africa-Western_Africa.csv") %>%
+  st_as_sf(coords = c("longitude", "latitude")) %>%
+  filter (country== "Syria")
+
+maps <-  st_read ("Data/World_Countries") %>%
+          filter (COUNTRY == "Syria")
+
+
+
+```
+
+
+```{r map, echo=TRUE}
+
+conflicts <- st_set_crs(conflicts, st_crs(maps))
+Syria <- ggplot() +
+  geom_sf(
+    data = maps, size = 0.1, color = "black", fill = "NA") +
+  geom_sf (data = filter (conflicts, year == 2021), aes(color= event_type), alpha=0.3,  size=0.5) +
+  labs(
+    title = "Syria",
+    subtitle = "Conflict Distribution by event type in Syria (2021)",
+    caption = "Source: ACLED Data
+    link: https://acleddata.com/data-export-tool/") +
+     theme_void() +
+       scale_colour_discrete("Event Types") 
+
+# making legend items bigger
+Syria +
+  guides(color = guide_legend(override.aes = list(size=3, alpha=1)))
+      
+
+```
+
+The visual above shows the distribution of different types of conflicts in Syria in 2021 until September. Violence against civilians and explosions/remote violence seems to be the dominant conflict events in Syria. Conflict however is not evenly distributed across the country - with significant clustering around the north around and the south west. Given the dominant types of conflict in Syria, mapping where most of it occurs is expected to help humanitarian aid planning as well as international intervention. 
+
+
+
