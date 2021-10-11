@@ -3,6 +3,8 @@ title: "Assignment04"
 author: "Farah Kaddah"
 date: "10/3/2021"
 output: html_document
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
@@ -24,7 +26,7 @@ library(hrbrthemes)
 
 ## Mapping Conflict in Syria by event type
 
-```{r Loading, echo=TRUE}
+```{r Loading, echo=TRUE, results = 'hide'}
 
 conflicts <- read.csv("Data/ACLED_2018-09-10-2021-09-17-Eastern_Africa-Middle_Africa-Middle_East-Southern_Africa-Western_Africa.csv") %>%
   st_as_sf(coords = c("longitude", "latitude")) %>%
@@ -32,8 +34,6 @@ conflicts <- read.csv("Data/ACLED_2018-09-10-2021-09-17-Eastern_Africa-Middle_Af
 
 maps <-  st_read ("Data/World_Countries") %>%
           filter (COUNTRY == "Syria")
-
-
 
 ```
 
@@ -62,5 +62,42 @@ Syria +
 
 The visual above shows the distribution of different types of conflicts in Syria in 2021 until September. Violence against civilians and explosions/remote violence seems to be the dominant conflict events in Syria. Conflict however is not evenly distributed across the country - with significant clustering around the north around and the south west. Given the dominant types of conflict in Syria, mapping where most of it occurs is expected to help humanitarian aid planning as well as international intervention. 
 
+## Stacked Bar Chart: Regional Conflict Data by Event Type
+### Middle East and Africa
 
+```{r ACLED, echo=TRUE}
 
+conflict_bar <- read.csv("Data/ACLED_2018-09-10-2021-09-17-Eastern_Africa-Middle_Africa-Middle_East-Southern_Africa-Western_Africa.csv")
+
+```
+
+```{r cleaning, echo=TRUE, results='hide'}
+
+clean_conflict <- select(conflict_bar, event_type, region, year) %>%
+                  filter(year== 2021) %>% 
+                  group_by(region)  %>%
+                  count(n=event_type)  
+                 
+```
+
+```{r type, echo=TRUE}
+
+clean_conflict %>%
+  ggplot(aes(fill= n, y=nn, x=region)) + 
+  geom_bar(position="stack", stat="identity")+
+  xlab("Region") +
+  ylab("Number of Events") +
+  scale_colour_discrete("Event Types")+
+  labs(title = "Conflict in Middle East and Africa", subtitle = "By conflict type data, 2021", caption = "Source: ACLED data
+       link: https://acleddata.com/data-export-tool/") +
+  guides(fill=guide_legend(title="Event Type")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(color = "#0099f9", size = 20),
+    plot.subtitle = element_text(face = "bold"),
+    plot.caption = element_text(face = "italic")
+  )
+
+```
+
+The stacked bar char shows a comparison between the Middle East as well as Africa in 2021 (until September). It shows the number of conflict events occurring in each region with further categorization in to types: battles, explosions/remote Violence, protests, riots, strategic developments, and  violence against civilians. The Middle East has had the highest number of conflict events in 2021, most likely driven by Syria, Palestine and Yemen. Protests and explosions/remote violence are the most reported events in the Middle East which is not the case in other African regions. The literature suggests poverty to be a main driver of conflict in developing countries. Although the Middle East and African regions are both suffering from developmental issues, conflict manifest themselves differently. This suggests looking the structural differences of these developmental problems across the regions, or possibly other reasons, to identify these differences in the distribution of conflict events. 
