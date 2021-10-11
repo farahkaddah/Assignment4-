@@ -87,13 +87,12 @@ clean_conflict %>%
   xlab("Region") +
   ylab("Number of Events") +
   scale_colour_discrete("Event Types")+
-  labs(title = "Protests and Violence Against Civilians are the main sources of conlfict in the Middle East", subtitle = "Source: ACLED Data (2021)", caption = "
+  labs(title = "Protests and Violence Against Civilians are the main sources of 
+  conflict in the Middle East", subtitle = "Source: ACLED Data (2021)", caption = "
        link: https://acleddata.com/data-export-tool/") +
   guides(fill=guide_legend(title="Event Type")) +
   theme_minimal() +
-  theme(
-    plot.title = element_text(color = "#0099f9", size = 10),
-    plot.caption = element_text(face = "italic")
+  theme(plot.caption = element_text(face = "italic")
   )
 
 ```
