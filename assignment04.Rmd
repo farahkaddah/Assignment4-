@@ -4,7 +4,7 @@ author: "Farah Kaddah"
 date: "10/3/2021"
 output: html_document
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -65,13 +65,13 @@ The visual above shows the distribution of different types of conflicts in Syria
 ## Stacked Bar Chart: Regional Conflict Data by Event Type
 ### Middle East and Africa
 
-```{r ACLED, echo=TRUE}
+```{r ACLED, echo=TRUE, results = 'hide'}
 
 conflict_bar <- read.csv("Data/ACLED_2018-09-10-2021-09-17-Eastern_Africa-Middle_Africa-Middle_East-Southern_Africa-Western_Africa.csv")
 
 ```
 
-```{r cleaning, echo=TRUE, results='hide'}
+```{r cleaning, echo=TRUE, message=FALSE}
 
 clean_conflict <- select(conflict_bar, event_type, region, year) %>%
                   filter(year== 2021) %>% 
@@ -104,16 +104,17 @@ The stacked bar char shows a comparison between the Middle East as well as Afric
 
 
 # Correlation between HDI & Corruption
-```{r qog, echo=TRUE}
+```{r qog, echo=TRUE, message=FALSE}
 
 qog_std_cs_jan21 <- read_csv("Data/qog_std_cs_jan21.csv")
+
+```
+
+```{r plot, echo=TRUE, message=FALSE, warning=FALSE}
 
 #Scatter plot for HDI and corruption
 qof_filtered <- select (qog_std_cs_jan21, undp_hdi, cname, wef_cor,vdem_corr)
 
-```
-
-```{r plot, echo=TRUE}
 qof_filtered %>%
   ggplot(aes(x=undp_hdi, y=wef_cor)) + 
   geom_point(color= "blue", size= 2, alpha = 0.5) +
