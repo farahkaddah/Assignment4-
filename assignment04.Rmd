@@ -46,10 +46,9 @@ Syria <- ggplot() +
     data = maps, size = 0.1, color = "black", fill = "NA") +
   geom_sf (data = filter (conflicts, year == 2021), aes(color= event_type), alpha=0.3,  size=0.5) +
   labs(
-    title = "Syria",
-    subtitle = "Conflict Distribution by event type in Syria (2021)",
-    caption = "Source: ACLED Data
-    link: https://acleddata.com/data-export-tool/") +
+    title = "Civilians are struggling in North and South-West Syria",
+    subtitle = "Source: ACLED Data (2021)",
+    caption = "link: https://acleddata.com/data-export-tool/") +
      theme_void() +
        scale_colour_discrete("Event Types") 
 
@@ -88,13 +87,12 @@ clean_conflict %>%
   xlab("Region") +
   ylab("Number of Events") +
   scale_colour_discrete("Event Types")+
-  labs(title = "Conflict in Middle East and Africa", subtitle = "By conflict type data, 2021", caption = "Source: ACLED data
+  labs(title = "Protests and Violence Against Civilians are the main sources of conlfict in the Middle East", subtitle = "Source: ACLED Data (2021)", caption = "
        link: https://acleddata.com/data-export-tool/") +
   guides(fill=guide_legend(title="Event Type")) +
   theme_minimal() +
   theme(
-    plot.title = element_text(color = "#0099f9", size = 20),
-    plot.subtitle = element_text(face = "bold"),
+    plot.title = element_text(color = "#0099f9", size = 10),
     plot.caption = element_text(face = "italic")
   )
 
@@ -121,7 +119,7 @@ qof_filtered %>%
   geom_smooth(method=lm, se=TRUE, fullrange=TRUE, level=0.95, color ="black") +
   scale_x_continuous("Human Development Index (0-1)", limits=c(0.2,1))+
   scale_y_continuous("Incidence of corruption (0 -100)", limits=c(0,100)) +
-  labs(title = "Global Relationship between Corruption and HDI 2020", subtitle = "Countries with higher HDI tend to have lower corruption", caption = " Source: Quality of Government Dataset
+  labs(title = "Countries with higher HDI tend to have lower corruption", subtitle = "Source: Quality of Government Dataset 2020", caption = " link:
        https://www.gu.se/en/quality-government/qog-data/data-downloads/standard-dataset" ) +
   theme_minimal()
 
@@ -136,7 +134,7 @@ The scatter plot above shows a relatively strong positive correlation between hu
 qof_filtered %>%
   ggplot (aes(x=undp_hdi)) +
     geom_histogram (binwidth=0.02, fill="#69b3a2", color="#e9ecef", alpha=0.9)+
-   labs(title = "Global Human Development Distribution 2020", subtitle = "Skewed left distribution", 
+   labs(title = "More countries are on the upper end of the HDI but inequality presists", subtitle = "Global Human Development Distribution 2020", 
         caption = " Source: Quality of Government Dataset
         link: https://www.gu.se/en/quality-government/qog-data/data-downloads/standard-dataset") +
     xlab("HDI")+
